@@ -40,10 +40,6 @@ import android.util.Log;
  //  Copyright © 2016 Gautam. All rights reserved.
  */
 
-/*Following sources were helpful:
-* 1. http://developer.android.com/training/basics/data-storage/databases.html
-* 2. http://developer.android.com/reference/android/database/Cursor.html
-* 3. */
 
 public class SimpleDhtProvider extends ContentProvider {
 
@@ -182,16 +178,6 @@ public class SimpleDhtProvider extends ContentProvider {
                 communication.setValue(value);
                 communication.setWhoAmI(launchPort);
                 Log.d(TAG, "insert: Launchport is : "+launchPort + "and desgnated is :"+designatedPort);
-//                try {
-//                    Socket socket = new Socket(InetAddress.getByAddress(new byte[]{10, 0, 2, 2}), designatedPort * 2);
-//                    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-//                    outputStream.writeObject(communication);
-//                }
-//                catch (IOException e)
-//                {
-//                    Log.d(TAG, "insert: IO exception in insert");
-//                }
-
                 new ClientTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, communication);
                 Log.v(TAG,"Called client task");
             }
