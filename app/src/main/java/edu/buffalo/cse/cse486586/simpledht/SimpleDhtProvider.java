@@ -178,6 +178,7 @@ public class SimpleDhtProvider extends ContentProvider {
                 communication.setValue(value);
                 communication.setWhoAmI(launchPort);
                 Log.d(TAG, "insert: Launchport is : "+launchPort + "and desgnated is :"+designatedPort);
+
                 new ClientTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, communication);
                 Log.v(TAG,"Called client task");
             }
