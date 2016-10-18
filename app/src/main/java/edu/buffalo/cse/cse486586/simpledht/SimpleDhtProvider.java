@@ -32,7 +32,6 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 /**
  //  MBP111.0138.B16
- //  System Serial: C02P4SP9G3QH
  //  Created by Abhishek Gautam on 4/04/2016
  //  Template by Steve Ko, Assistant Professor, University at Buffalo, The State University of New York.
  //  agautam2@buffalo.edu
@@ -55,7 +54,6 @@ public class SimpleDhtProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs)
     {
-        // TODO Auto-generated method stub
         String key=selection;
         DBHandler dbHandler = new DBHandler(getContext());
         SQLiteDatabase sqLiteDatabase = dbHandler.getWritableDatabase();
@@ -65,8 +63,8 @@ public class SimpleDhtProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(Uri uri) {
-        // TODO Auto-generated method stub
+    public String getType(Uri uri) 
+    {
         return null;
     }
 
@@ -96,7 +94,6 @@ public class SimpleDhtProvider extends ContentProvider {
             {
                 // CASE - 2.1
                 Log.v(TAG,"CASE 2.1");
-                /*Sorting array list based on comparator - http://www.tutorialspoint.com/java/java_using_comparator.htm*/
                 Collections.sort(nodeSpace, new Comparator<Integer>()
                 {
                     @Override
@@ -149,7 +146,6 @@ public class SimpleDhtProvider extends ContentProvider {
                 else
                 {
                     //SENDING DATA TO OTHER NODE FOR INSERTION
-                    
                     
                     nodeTalk communication = new nodeTalk("redirectedInsert");
                     communication.setKey(key);
@@ -224,8 +220,6 @@ public class SimpleDhtProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder)
     {
-        // TODO Auto-generated method stub
-
         Log.v(TAG,"inside Cursor query");
         Cursor cursor=null;
         String[] columns = {"key", "value"};
@@ -243,7 +237,6 @@ public class SimpleDhtProvider extends ContentProvider {
         }
         else if(selection.equals(gDump))
         {
-            //TODO
             Log.v(TAG,"CASE GDUMP");
             if(soloFlag==1)
             {
@@ -254,7 +247,6 @@ public class SimpleDhtProvider extends ContentProvider {
             }
             else
             {   //WHEN SOLO FLAG IS NOT 1
-                //TODO
                 Log.v(TAG, "When soloFlag is NOT 1");
                 if(launchPort==designatedPort)
                 {
@@ -266,8 +258,6 @@ public class SimpleDhtProvider extends ContentProvider {
                     String hugeString = "5554#";
                     Cursor c2=null;
                     c2 = sqLiteDatabase.query(true, "dhtRecords", columns, null, null, null, null, null, null);
-                    //cursor.moveToFirst();
-                            /* http://stackoverflow.com/questions/2810615/how-to-retrieve-data-from-cursor-class */
                     c2.moveToFirst();
                     Log.d(TAG, "query: Cursor count is : "+c2.getCount());
                     if(c2.getCount()>0)
@@ -275,7 +265,6 @@ public class SimpleDhtProvider extends ContentProvider {
                         do
                         {
                             hugeString+=c2.getString(0)+"-"+c2.getString(1)+"*";
-
                         }while (c2.moveToNext());
                     }
                     else
@@ -301,8 +290,6 @@ public class SimpleDhtProvider extends ContentProvider {
 
                                 hugeString+=processMyContactforLDUMPReply+"@";
                                 Log.v(TAG,"@@huge string: "+ hugeString);
-
-
                             }
                             catch (IOException e)
                             {
@@ -347,7 +334,6 @@ public class SimpleDhtProvider extends ContentProvider {
                 {
                     Log.v(TAG, "REQUEST on OTHER DEVICES. 5554 takes care of it");
                     //* REQUEST on OTHER DEVICES. 5554 takes care of it
-                    //TODO
                     try
                     {
                         Socket socket = new Socket(InetAddress.getByAddress(new byte[]{10, 0, 2, 2}), designatedPort * 2);
@@ -456,7 +442,6 @@ public class SimpleDhtProvider extends ContentProvider {
                         outputStream.writeObject(communication);
                         Log.v(TAG, "redirectedQuery sent to ST on socket "+socket.toString());
 
-                        //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                         String processDaemonReply = dataInputStream.readUTF();
                         Log.v(TAG,"after buffered reader");
@@ -528,15 +513,10 @@ public class SimpleDhtProvider extends ContentProvider {
                         e.printStackTrace();
                     }
 
-                    //TODO close database
-
                 }
             }
 
         }
-
-
-
         return cursor;
     }
 
@@ -655,7 +635,6 @@ public class SimpleDhtProvider extends ContentProvider {
             {
                 // CASE - 2.1
                 Log.v(TAG,"inside insertHandler at Server");
-                /*Sorting array list based on comparator - http://www.tutorialspoint.com/java/java_using_comparator.htm*/
                 Collections.sort(nodeSpace, new Comparator<Integer>()
                 {
                     @Override
@@ -718,8 +697,6 @@ public class SimpleDhtProvider extends ContentProvider {
                         ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                         outputStream.writeObject(communication);
 
-//                        BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//                        String reply=bufferedReader.readLine();
                         daemonReply = "Insert success";
 
                     }
@@ -835,8 +812,6 @@ public class SimpleDhtProvider extends ContentProvider {
         }
         String redirectedGDUMPHandler(nodeTalk nodetalk)
         {
-            //TODO
-
             int iterator;
             Cursor cursor = null;
             String[] columns = {"key", "value"};
@@ -891,7 +866,6 @@ public class SimpleDhtProvider extends ContentProvider {
         }
         String sendYourLDUMPHandler(nodeTalk nodetalk)
         {
-            //TODO
             Cursor cursor = null;
             String[] columns = {"key","value"};
             DBHandler dbHandler = new DBHandler(getContext());
@@ -933,7 +907,6 @@ public class SimpleDhtProvider extends ContentProvider {
                 if (obj.getLanguage().equals("join"))
                 {
                     Log.v(TAG, "handling join at CT");
-                    //daemonMessage = obj.getLanguage() + "#" + obj.getWhoAmI();
                 }
                 else if (obj.getLanguage().equals("insert"))
                 {
@@ -1001,10 +974,8 @@ public class SimpleDhtProvider extends ContentProvider {
                 }
               else  if (obj.getLanguage().equals("query")) {
                     try {
-                        //BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                         String reply=dataInputStream.readUTF();
-                        //String reply = bufferedReader.readLine();
                         if (reply != null) {   //process
                             String[] processedData = reply.split("-");
                             matrixCursor.addRow(new String[]{processedData[1], processedData[2]});
